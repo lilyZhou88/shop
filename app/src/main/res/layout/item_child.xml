@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="120dp">
+
+    <ImageView
+        android:id="@+id/select_id1"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:src="@drawable/unselect"
+        />
+
+    <ImageView
+        android:id="@+id/iv_photo"
+        app:layout_constraintLeft_toRightOf="@id/select_id1"
+        android:layout_width="105dp"
+        android:layout_height="105dp"
+        android:layout_marginLeft="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_centerVertical="true"
+        android:scaleType="centerCrop"
+        android:src="@drawable/book"/>
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="10dp"
+        android:textSize="18sp"
+        app:layout_constraintLeft_toRightOf="@id/iv_photo"
+        android:text="商品名称"
+        android:textColor="#333333"/>
+
+    <TextView
+        android:id="@+id/tv_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/tv_name"
+        android:layout_marginTop="35dp"
+        android:layout_marginLeft="10dp"
+        android:textSize="16sp"
+        android:textColor="#ee1d23"
+        app:layout_constraintLeft_toRightOf="@id/iv_photo"
+        android:text="商品价格"/>
+
+    <ImageView
+        android:id="@+id/minus_id"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        app:layout_constraintLeft_toRightOf="@id/tv_price"
+        app:layout_constraintTop_toBottomOf="@id/tv_name"
+        android:layout_marginTop="38dp"
+        android:layout_marginLeft="110dp"
+        android:src="@drawable/iv_edit_subtract"
+        />
+
+
+    <TextView
+        android:id="@+id/tv_buy_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        app:layout_constraintLeft_toRightOf="@id/minus_id"
+        app:layout_constraintTop_toBottomOf="@id/tv_name"
+        android:layout_marginTop="36dp"
+        android:layout_marginLeft="2dp"
+        android:minEms="1"
+        android:text="1"
+        android:textColor="#000000"
+        android:textSize="15sp" />
+
+    <ImageView
+        android:id="@+id/plus_id"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        app:layout_constraintLeft_toRightOf="@id/tv_buy_number"
+        app:layout_constraintTop_toBottomOf="@id/tv_name"
+        android:layout_marginTop="38dp"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="15dp"
+        android:src="@drawable/iv_edit_add"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

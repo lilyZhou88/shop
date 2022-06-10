@@ -1,6 +1,8 @@
 package com.example.shoppingcar;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,15 +24,18 @@ public class ShoppingCarAdapter extends BaseExpandableListAdapter {
     private Boolean isSelectAll = false;
     private double all;
     private Button delete;
+    private Context context;
 
-    public ShoppingCarAdapter(List<ShoppingCarDataBean.DatasBean> dataBeans, ImageView selectAll, TextView allPrice, Button btnOrder,Button delete) {
+    public ShoppingCarAdapter(Context context, List<ShoppingCarDataBean.DatasBean> dataBeans, ImageView selectAll, TextView allPrice, Button btnOrder, Button delete) {
         this.dataBeans = dataBeans;
         this.selectAll = selectAll;
         this.allPrice = allPrice;
         this.btnOrder = btnOrder;
         this.btnOrder = btnOrder;
         this.delete = delete;
+        this.context = context;
     }
+
     public void setData(List<ShoppingCarDataBean.DatasBean> data) {
         this.dataBeans = data;
         notifyDataSetChanged();
@@ -231,6 +236,55 @@ public class ShoppingCarAdapter extends BaseExpandableListAdapter {
             }
         });
 
+        btnOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+                //创建临时的List，用于存储有商品被选中的店铺
+                List<ShoppingCarDataBean.DatasBean> tempStores = new ArrayList<>();
+                for (int i = 0; i < dataBeans.size(); i++) {
+                    //店铺中是否有商品被选中
+                    boolean hasGoodsSelect = false;
+                    //创建临时的List，用于存储被选中的商品
+                    List<ShoppingCarDataBean.DatasBean.GoodsBean> tempGoods = new ArrayList<>();
+
+                    ShoppingCarDataBean.DatasBean storesBean = dataBeans.get(i);
+                    List<ShoppingCarDataBean.DatasBean.GoodsBean> goods = storesBean.getGoods();
+                    for (int y = 0; y < goods.size(); y++) {
+                        ShoppingCarDataBean.DatasBean.GoodsBean goodsBean = goods.get(y);
+                        boolean isSelect = goodsBean.getIsSelect();
+                        if (isSelect) {
+                            hasGoodsSelect = true;
+                            tempGoods.add(goodsBean);
+                        }
+                    }
+
+                    if (hasGoodsSelect) {
+                        ShoppingCarDataBean.DatasBean storeBean = new ShoppingCarDataBean.DatasBean();
+                        storeBean.setStore_id(storesBean.getStore_id());
+                        storeBean.setStore_name(storesBean.getStore_name());
+                        storeBean.setGoods(tempGoods);
+
+                        tempStores.add(storeBean);
+                    }
+                }
+
+                if (tempStores != null && tempStores.size() > 0) {//如果有被选中的
+                    /**
+                     * 实际开发中，如果有被选中的商品，
+                     * 则跳转到确认订单页面，完成后续订单流程。
+                     */
+
+                    Toast.makeText(context, "拿到数据跳转订单界面", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(context, "请选择要购买的商品", Toast.LENGTH_SHORT).show();
+                }
+
+
+            }
+        });
+
         return itemView;
     }
 
@@ -307,7 +361,7 @@ public class ShoppingCarAdapter extends BaseExpandableListAdapter {
             }
         });
 
-        //价格结算
+        //合计
         allPrice.setText("￥0.00");
         all = 0.0;
         for (int x = 0; x < dataBeans.size(); x++) {
@@ -350,12 +404,13 @@ public class ShoppingCarAdapter extends BaseExpandableListAdapter {
     public boolean isChildSelectable(int groupPosition, int childPosition) {
         return false;
     }
+
     //接口
-    public interface OnDeleteListener{
+    public interface OnDeleteListener {
         void delete();
     }
 
-    public void setOnDeleteListener(OnDeleteListener listener){
+    public void setOnDeleteListener(OnDeleteListener listener) {
         mListener = listener;
     }
 

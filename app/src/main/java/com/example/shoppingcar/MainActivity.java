@@ -1,5 +1,6 @@
 package com.example.shoppingcar;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     private List<ShoppingCarDataBean.DatasBean> datasTemp;
     private int n = 0;
+    private Context context;
 
     //模拟的购物车数据（实际开发中使用后台返回的数据）
     private String shoppingCarData = "{\n" +
@@ -111,6 +113,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        context = this;
         initData();
         initView();
         initExpandableListView();
@@ -149,6 +152,8 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        //支付宝
 //        btnOrder.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -159,7 +164,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initExpandableListView() {
-        adapter = new ShoppingCarAdapter(storeList, selectAll, allPrice, btnOrder,delete);
+        adapter = new ShoppingCarAdapter(context,storeList, selectAll, allPrice, btnOrder,delete);
         shoppingCar.setAdapter(adapter);
 
         adapter.setOnDeleteListener(new ShoppingCarAdapter.OnDeleteListener() {
@@ -208,7 +213,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
                 Log.d(TAG, "falseNum: " + n);
-
 
                 if (hasSelect) {
 //                    showDeleteDialog(datasTemp);
